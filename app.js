@@ -20,6 +20,38 @@ let friends = [
     },
 ] ;
 
+let shoppingItems = [
+    {  
+        title: "Grocery Shopping",
+        amount: 50,
+        date: new Date(),
+        isSettled: false,
+    },
+    {
+        title: "Aldi Shopping",
+        amount: 100,
+        date: new Date(),
+        isSettled: true,
+    }]
+
+//function to display shopping items
+function showShoppingItems(shoppingItems) {
+
+
+const shoppingItemsElement = document.getElementById('shopping_items');
+let shoppingListElements = '';
+for(let shoppingItems of shoppingItems) {
+    let shoppingItemElement = `<div>
+    <div><h3>${shoppingItems.title}</h3>
+        <time>${shoppingItems.date}</time>
+    </div>
+    <div>$${shoppingItems.amount}</div>
+    </div>`
+    shoppingListElements += shoppingListElements;
+}
+shoppingItemsElements.innerHTML = shoppingListElements;
+}
+
 //function to display friends
 function showFriends(friends) {
 const friendsElement = document.getElementById('friends');
@@ -33,10 +65,11 @@ friendsElement.innerHTML = friendListElements;
 }
 
 
-
+// Function to display unsettled Amount
 function showUnsettledAmount(unsettledAmount){
 const unsettledAmountElement = document.getElementById("unsettled_amount");
 unsettledAmountElement.innerHTML = unsettledAmount;
 }
+showShoppingItems();
 showFriends(friends);
 showUnsettledAmount(totalAmount / friends.length);
