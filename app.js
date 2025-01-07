@@ -130,14 +130,14 @@ function handleSettleNow() {
     item.isSettled = true;
     return item;
   });
-  showShoppingItems(shoppingItems);
-  totalAmount = getTotalAmount(shoppingItems);
-  console.log({ totalAmount });
-  let unsettledAmount = totalAmount && totalAmount / friends.length;
-  showUnsettledAmount(unsettledAmount);
+  refreshData(shoppingItems);
 
 }
-showShoppingItems(shoppingItems);
+  function refreshData (shoppingItems) {
+    showShoppingItems(shoppingItems);
+    const TotalAmount = getTotalAmount(shoppingItems);
+    let unsettledAmount = totalAmount && totalAmount / friends.length;
+    showUnsettledAmount(unsettledAmount);
+  }
 showFriends(friends);
-totalAmount = getTotalAmount(shoppingItems);
-showUnsettledAmount(totalAmount / friends.length);
+refreshData(shoppingItems);
