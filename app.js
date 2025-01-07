@@ -1,75 +1,132 @@
-let totalAmount = 60;
+let totalAmount = 889;
 let friends = [
-    {
+  {
     firstName: 'Alex',
     lastName: 'Lee',
-    mobile: 5678908993,
-    email: 'alexlee@example.com', 
-    },
-    {
-     firstName: 'Bob',
-     lastName: 'Lyon',
-     mobile: 567888993,
-     email: 'boblyon@example.com', 
-        },
-    {
+    mobile: '0420400163',
+    email: 'alex.lee@gmail.com',
+  },
+  {
+    firstName: 'Bob',
+    lastName: 'Smith',
+    mobile: '0420400183',
+    email: 'bob.smith@gmail.com',
+  },
+  {
+    firstName: 'Charlie',
+    lastName: 'Trump',
+    mobile: '0420400283',
+    email: 'charlie.trump@gmail.com',
+  },
+  {
     firstName: 'Donald',
     lastName: 'Trump',
-    mobile: 5673238993,
-    email: 'dtrump@example.com', 
-    },
-] ;
+    mobile: '0420400383',
+    email: 'donald.trump@gmail.com',
+  },
+];
 
 let shoppingItems = [
-    {  
-        title: "Grocery Shopping",
-        amount: 50,
-        date: new Date(),
-        isSettled: false,
-    },
-    {
-        title: "Aldi Shopping",
-        amount: 100,
-        date: new Date(),
-        isSettled: true,
-    }]
+  {
+    title: 'Grocery shopping',
+    amount: 50,
+    date: new Date(),
+    isSettled: false,
+  },
+  {
+    title: 'Aldi shopping',
+    amount: 150,
+    date: new Date(),
+    isSettled: true,
+  },
+  {
+    title: 'Picnic',
+    amount: 450,
+    date: new Date(),
+    isSettled: true,
+  },
+];
 
-//function to display shopping items
+const submitButtonElement = document.querySelector("input[type='submit']");
+submitButtonElement.addEventListener('click', handleForm);
+
+function handleForm(event) {
+  event.preventDefault();
+
+  const title = document.getElementById('title').value;
+  const amount = document.getElementById('amount').value;
+  if (!title || !amount) {
+    return;
+  }
+  let shoppingItem = {
+    title,
+    amount: parseFloat(amount),
+    date: new Date(),
+    isSettled: false,
+  };
+  console.log({ shoppingItem });
+  console.log('Submit button clicked');
+  shoppingItems.unshift(shoppingItem);
+  showShoppingItems(shoppingItems);
+  clearFormElements();
+  let total = getTotalAmount(shoppingItems);
+  showUnsettledAmount(total / friends.length);
+}
+
+function getTotalAmount(shoppingItems) {
+  const total = shoppingItems.reduce((total, item) => {
+    if (!item.isSettled) {
+      return total + item.amount;
+    }
+    return total;
+  }, 0);
+  return total;
+}
+
+function clearFormElements() {
+  document.getElementById('title').value = '';
+  document.getElementById('amount').value = '';
+}
 function showShoppingItems(shoppingItems) {
-
-
-const shoppingItemsElement = document.getElementById('shopping_items');
-let shoppingListElements = '';
-for(let shoppingItems of shoppingItems) {
-    let shoppingItemElement = `<div>
-    <div><h3>${shoppingItems.title}</h3>
-        <time>${shoppingItems.date}</time>
-    </div>
-    <div>$${shoppingItems.amount}</div>
-    </div>`
-    shoppingListElements += shoppingListElements;
+  const shoppingItemsElement = document.getElementById('shopping_items');
+  let shoppingListElements = '';
+  for (let shoppingItem of shoppingItems) {
+    let shoppingItemElement = `<div  class="${
+      shoppingItem.isSettled ? 'settled' : ''
+    }">
+        <div><h3>${shoppingItem.title}</h3>
+            <time>${shoppingItem.date}</time>
+        </div>
+        <div>$${shoppingItem.amount}</div>
+    </div>`;
+    shoppingListElements += shoppingItemElement;
+  }
+  shoppingItemsElement.innerHTML = shoppingListElements;
 }
-shoppingItemsElements.innerHTML = shoppingListElements;
-}
 
-//function to display friends
+// Function to display friends
 function showFriends(friends) {
-const friendsElement = document.getElementById('friends');
-let friendListElements = '';
-for(let friend of friends) {
+  const friendsElement = document.getElementById('friends');
+  let friendListElements = '';
+  for (let friend of friends) {
     let friendElement = `<div title="${friend.firstName} ${friend.lastName}"></div>`;
     friendListElements = friendListElements + friendElement;
-    
-}
-friendsElement.innerHTML = friendListElements;
+  }
+  friendsElement.innerHTML = friendListElements;
 }
 
-
-// Function to display unsettled Amount
-function showUnsettledAmount(unsettledAmount){
-const unsettledAmountElement = document.getElementById("unsettled_amount");
-unsettledAmountElement.innerHTML = unsettledAmount;
+// Function to show unsettled amount
+function showUnsettledAmount(unsettledAmount) {
+  const unsettledAmountElement = document.getElementById('unsettled_amount');
+  unsettledAmountElement.innerHTML = unsettledAmount;
 }
-showShoppingItems();
+const settleNowBtn = document.getElementById('settle_now_btn');
+settleNowBtn.addEventListener('click', handleSettleNow);
+
+function handleSettleNow() {
+  console.log('Settling Now');
+}
+showShoppingItems(shoppingItems);
 showFriends(friends);
+totalAmount = getTotalAmount(shoppingItems);
 showUnsettledAmount(totalAmount / friends.length);
