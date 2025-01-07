@@ -124,7 +124,18 @@ const settleNowBtn = document.getElementById('settle_now_btn');
 settleNowBtn.addEventListener('click', handleSettleNow);
 
 function handleSettleNow() {
-  console.log('Settling Now');
+  // console.log('Settling Now');
+
+  shoppingItems = shoppingItems.map((item) => {
+    item.isSettled = true;
+    return item;
+  });
+  showShoppingItems(shoppingItems);
+  totalAmount = getTotalAmount(shoppingItems);
+  console.log({ totalAmount });
+  let unsettledAmount = totalAmount && totalAmount / friends.length;
+  showUnsettledAmount(unsettledAmount);
+
 }
 showShoppingItems(shoppingItems);
 showFriends(friends);
